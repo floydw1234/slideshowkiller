@@ -1,4 +1,4 @@
-var links = document.links;
+var links = document.getElementsByTagName('a');
 
 function recursiveFill(link, CurrentTitle, NextTitle){
     return;
@@ -11,11 +11,9 @@ for (var i = 0, l = links.length; i < l; i++) {
             var xhr = new XMLHttpRequest();
             xhr.onload = function() {
               //alert(this.responseXML.title);
-              var head = document.createElement("p");
+              var head = document.createElement("h1");
               head.innerHTML = "asdf";
-
               links[i].parentNode.replaceChild(head, links[i]);
-              alert("asdf")
             }
             xhr.open("GET", url);
             xhr.responseType = "document";
