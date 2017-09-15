@@ -12,7 +12,7 @@
 
   "content_scripts": [{
     "js": ["content.js"],
-    "matches": ["http://www.lifebuzz.com/*"]
+    "matches": ["http://www.lifebuzz.com/*","http://thefunnybeaver.com/*"]
   }]
 
 }

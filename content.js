@@ -16,14 +16,19 @@ function loop(callBack){
     }
 }
 
+
+
 loop(function(element){
     request(element.href,function(xmlDoc){
         foreignElement = xmlDoc.body;
         header = foreignElement.getElementsByTagName('header')[0];
         header.parentNode.removeChild(header);
-        var temp = document.createElement("body");
-        temp.innerHTML = foreignElement.childNodes[0].nodeValue;
-        element.parentNode.replaceChild(temp, element);
+        images = foreignElement.getElementsByTagName('img');
+        for(i = 0; i < images.length ; i++){
+            images[i].setAttribute('src', images[i].getAttribute('data-original'));
+            images[i].removeAttribute('data-original');
+        }
+        element.parentNode.replaceChild(foreignElement, element);
         //alert(xmlDoc.title);
     });
 });
