@@ -5,30 +5,40 @@ var article = document.URL.split(".com/")[1].split("/")[0];
 recursiveFill(document);
 
 function recursiveFill(doc){
-    alert(doc.URL)
-    if(doc.URL.split(".com/")[1].split("/")[0] == article){
         loop(doc,function(element){
             request(element.href,function(xmlDoc){
+                if(xmlDoc.URL.split(".com/")[1].split("/")[0] != article){
+                    return;
+                }
                 //alert(xmlDoc.getElementsByTagName('a').length);
                 foreignElement = xmlDoc.body;
+                alert("asdf");
+                cleanUp(foreignElement,function(doc){
+                    element.parentNode.replaceChild(doc, element);
+                    return recursiveFill(document);
+                });
                 //alert(xmlDoc.body);
                 //alert("next thing Url:" + xmlDoc.URL);
-                header = foreignElement.getElementsByTagName('header')[0];
-                header.parentNode.removeChild(header);
-                images = foreignElement.getElementsByTagName('img');
-                for(i = 0; i < images.length ; i++){
-                    images[i].setAttribute('src', images[i].getAttribute('data-original'));
-                    images[i].removeAttribute('data-original');
-                }
-                temp = doc.createElement('div');
-                temp.innerHTML = foreignElement.innerHTML;
-                element.parentNode.replaceChild(temp, element);
-                return recursiveFill(xmlDoc);
+
             });
         });
-    }else{
-        return;
+
+}
+function cleanUp(doc, callback){
+    header = doc.getElementsByTagName('header')[0];
+    header.parentNode.removeChild(header);
+    footer = doc.getElementsByTagName('footer')[0];
+    footer.parentNode.removeChild(footer);
+    ul = doc.getElementsByTagName('ul');
+    for( i = 0; i < ul.length ; i++){
+        ul[i].parentNode.removeChild(ul[i]);
     }
+    images = doc.getElementsByTagName('img');
+    for(i = 0; i < images.length ; i++){
+        images[i].setAttribute('src', images[i].getAttribute('data-original'));
+        images[i].removeAttribute('data-original');
+    }
+    callback(doc);
 }
 
 
