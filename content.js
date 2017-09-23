@@ -12,7 +12,7 @@ function recursiveFill(doc){
                 }
                 //alert(xmlDoc.getElementsByTagName('a').length);
                 foreignElement = xmlDoc.body;
-                alert("asdf");
+                ///alert("asdf");
                 cleanUp(foreignElement,function(doc){
                     element.parentNode.replaceChild(doc, element);
                     return recursiveFill(document);
@@ -25,14 +25,22 @@ function recursiveFill(doc){
 
 }
 function cleanUp(doc, callback){
+
     header = doc.getElementsByTagName('header')[0];
-    header.parentNode.removeChild(header);
-    footer = doc.getElementsByTagName('footer')[0];
-    footer.parentNode.removeChild(footer);
+    for(i = 0; i < header.length ;i++){
+        header[i].parentNode.removeChild(header[i]);
+    }
+
+    footer = doc.getElementsByTagName('footer');
+    for(i = 0; i < footer.length; i++){
+        footer[i].parentNode.removeChild(footer[i]);
+    }
+
     ul = doc.getElementsByTagName('ul');
     for( i = 0; i < ul.length ; i++){
         ul[i].parentNode.removeChild(ul[i]);
     }
+
     images = doc.getElementsByTagName('img');
     for(i = 0; i < images.length ; i++){
         images[i].setAttribute('src', images[i].getAttribute('data-original'));
